@@ -2,6 +2,9 @@
 
 import json
 import numpy as np
+from keras_contrib.layers import CRF
+from keras_contrib.losses import crf_loss
+from keras_contrib.metrics import crf_accuracy, crf_viterbi_accuracy
 from keras.models import Model, Input
 from keras.layers import Dense, Bidirectional, Dropout, LSTM, TimeDistributed, Masking
 from keras.utils import to_categorical, plot_model
@@ -63,9 +66,12 @@ def build_model(max_para_length, n_tags):
     # LSTM model
     lstm = Bidirectional(LSTM(units=128, return_sequences=True), name="bi_lstm")(bert_output)
     drop = Dropout(0.1, name="dropout")(lstm)
-    out = TimeDistributed(Dense(n_tags, activation="softmax"), name="time_distributed")(drop)
+    dense = TimeDistributed(Dense(n_tags, activation="softmax"), name="time_distributed")(drop)
+    crf = CRF(n_tags)
+    out = crf(dense)
     model = Model(inputs=bert_output, outputs=out)
-    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    # model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(loss=crf.loss_function, optimizer='adam', metrics=[crf.accuracy])
 
     # 模型结构总结
     model.summary()
@@ -97,9 +103,9 @@ def train_model():
     plt.legend()
 
     plt.subplot(2, 1, 2)
-    epochs = len(history.history['acc'])
-    plt.plot(range(epochs), history.history['acc'], label='acc')
-    plt.plot(range(epochs), history.history['val_acc'], label='val_acc')
+    epochs = len(history.history['crf_viterbi_accuracy'])
+    plt.plot(range(epochs), history.history['crf_viterbi_accuracy'], label='crf_viterbi_accuracy')
+    plt.plot(range(epochs), history.history['val_crf_viterbi_accuracy'], label='val_crf_viterbi_accuracy')
     plt.legend()
     plt.savefig("%s_loss_acc.png" % event_type)
 

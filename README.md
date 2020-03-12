@@ -16,6 +16,32 @@
 
 ![](https://github.com/percent4/ALBERT_BER_KERAS/blob/master/example_loss_acc.png)
 
+&emsp;&emsp;ALBERT+Bi-LSTM在测试集上的效果如下：
+
+```
+           precision    recall  f1-score   support
+
+      ORG     0.9001    0.9112    0.9056      2185
+      LOC     0.9383    0.8898    0.9134      3658
+      PER     0.9543    0.9415    0.9479      1864
+
+micro avg     0.9310    0.9084    0.9196      7707
+macro avg     0.9313    0.9084    0.9195      7707
+```
+
+&emsp;&emsp;ALBERT+Bi-LSTM+CRF在测试集上的效果如下：
+
+```
+           precision    recall  f1-score   support
+
+      LOC     0.9766    0.9032    0.9385      3658
+      ORG     0.9700    0.9465    0.9581      2185
+      PER     0.9880    0.9721    0.9800      1864
+
+micro avg     0.9775    0.9321    0.9543      7707
+macro avg     0.9775    0.9321    0.9541      7707
+```
+
 ### 预测
 
 ```

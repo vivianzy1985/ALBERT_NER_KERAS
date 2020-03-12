@@ -4,12 +4,15 @@
 # time: 2020-03-11 13:16
 import json
 import numpy as np
-from albert_zh.extract_feature import BertVector
+from keras_contrib.layers import CRF
+from keras_contrib.losses import crf_loss
+from keras_contrib.metrics import crf_accuracy, crf_viterbi_accuracy
 from keras.models import load_model
 from collections import defaultdict
 from pprint import pprint
 
 from utils import MAX_SEQ_LEN, event_type
+from albert_zh.extract_feature import BertVector
 
 # 读取label2id字典
 with open("%s_label2id.json" % event_type, "r", encoding="utf-8") as h:
@@ -22,6 +25,7 @@ bert_model = BertVector(pooling_strategy="NONE", max_seq_len=MAX_SEQ_LEN)
 f = lambda text: bert_model.encode([text])["encodes"][0]
 
 # 载入模型
+custom_objects={'CRF': CRF,'crf_loss': crf_loss,'crf_viterbi_accuracy':crf_viterbi_accuracy}
 ner_model = load_model("%s_ner.h5" % event_type)
 
 
