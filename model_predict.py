@@ -25,8 +25,8 @@ bert_model = BertVector(pooling_strategy="NONE", max_seq_len=MAX_SEQ_LEN)
 f = lambda text: bert_model.encode([text])["encodes"][0]
 
 # 载入模型
-custom_objects={'CRF': CRF,'crf_loss': crf_loss,'crf_viterbi_accuracy':crf_viterbi_accuracy}
-ner_model = load_model("%s_ner.h5" % event_type)
+custom_objects = {'CRF': CRF, 'crf_loss': crf_loss, 'crf_viterbi_accuracy': crf_viterbi_accuracy}
+ner_model = load_model("%s_ner.h5" % event_type, custom_objects=custom_objects)
 
 
 # 从预测的标签列表中获取实体
