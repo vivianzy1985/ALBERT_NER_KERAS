@@ -90,7 +90,6 @@ def train_model():
 
     # 模型训练
     model = build_model(MAX_SEQ_LEN, len(label_id_dict.keys())+1)
-
     history = model.fit(train_x, train_y, validation_data=(dev_x, dev_y), batch_size=16, epochs=10)
 
     model.save("%s_ner.h5" % event_type)

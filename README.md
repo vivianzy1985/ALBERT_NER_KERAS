@@ -16,7 +16,7 @@
 
 ![](https://github.com/percent4/ALBERT_BER_KERAS/blob/master/example_loss_acc.png)
 
-&emsp;&emsp;ALBERT+Bi-LSTM在测试集上的效果如下：
+&emsp;&emsp;ALBERT+Bi-LSTM在人民日报测试集上的效果如下：
 
 ```
            precision    recall  f1-score   support
@@ -29,7 +29,7 @@ micro avg     0.9310    0.9084    0.9196      7707
 macro avg     0.9313    0.9084    0.9195      7707
 ```
 
-&emsp;&emsp;ALBERT+Bi-LSTM+CRF在测试集上的效果如下：
+&emsp;&emsp;ALBERT+Bi-LSTM+CRF在人民日报测试集上的效果如下：
 
 ```
            precision    recall  f1-score   support
@@ -41,8 +41,29 @@ macro avg     0.9313    0.9084    0.9195      7707
 micro avg     0.9775    0.9321    0.9543      7707
 macro avg     0.9775    0.9321    0.9541      7707
 ```
+&emsp;&emsp;ALBERT+Bi-LSTM+CRF在CLUENER的dev数据集上的效果如下：
+
+```
+              precision    recall  f1-score   support
+
+        book     0.9343    0.8421    0.8858       152
+    position     0.9549    0.8965    0.9248       425
+  government     0.9372    0.9180    0.9275       244
+        game     0.6968    0.6725    0.6844       287
+organization     0.8836    0.8605    0.8719       344
+     company     0.8659    0.7760    0.8184       366
+     address     0.8394    0.8187    0.8289       364
+       movie     0.9217    0.7067    0.8000       150
+        name     0.8771    0.8071    0.8406       451
+       scene     0.9939    0.8191    0.8981       199
+
+   micro avg     0.8817    0.8172    0.8482      2982
+   macro avg     0.8835    0.8172    0.8482      2982
+```
 
 ### 预测
+
+&emsp;&emsp;人民日报NER的模型预测例子：
 
 ```
 Please enter an sentence: 昨天进行的女单半决赛中，陈梦4-2击败了队友王曼昱，伊藤美诚则以4-0横扫了中国选手丁宁。
@@ -53,4 +74,21 @@ Please enter an sentence: “隔离结束回来，发现公司不见了”，网
 {'ORG': ['昆山达鑫电子有限公司']}
 Please enter an sentence: 真人版的《花木兰》由新西兰导演妮基·卡罗执导，由刘亦菲、甄子丹、郑佩佩、巩俐、李连杰等加盟，几乎是全亚洲整容。
 {'LOC': ['新西兰', '亚洲'], 'PER': ['妮基·卡罗', '刘亦菲', '甄子丹', '郑佩佩', '巩俐', '李连杰']}
+```
+
+&emsp;&emsp;CLUENER的模型预测例子：
+
+```
+Please enter an sentence: 据中山外侨局消息，近日，秘鲁国会议员、祖籍中山市开发区的玛利亚·洪大女士在秘鲁国会大厦亲切会见了中山市人民政府副市长冯煜荣一行，对中山市友好代表团的来访表示热烈的欢迎。
+{'address': ['中山市开发区', '秘鲁国会大厦'],
+ 'government': ['中山外侨局', '秘鲁国会', '中山市人民政府'],
+ 'name': ['玛利亚·洪大', '冯煜荣'],
+ 'position': ['议员', '副市长']}
+ Please enter an sentence: “隔离结束回来，发现公司不见了”，网上的段子，真发生在了昆山达鑫电子有限公司员工身上。
+{'company': ['昆山达鑫电子有限公司']}
+Please enter an sentence: 由黄子韬、易烊千玺、胡冰卿、王子腾等一众青年演员主演的热血励志剧《热血同行》正在热播中。
+{'game': ['《热血同行》'], 'name': ['黄子韬', '易烊千玺', '胡冰卿', '王子腾'], 'position': ['演员']}
+Please enter an sentence: 近日，由作家出版社主办的韩作荣《天生我才——李白传》新书发布会在京举行
+{'book': ['《天生我才——李白传》'], 'name': ['韩作荣'], 'organization': ['作家出版社']}
+
 ```
